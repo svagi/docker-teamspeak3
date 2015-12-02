@@ -30,7 +30,7 @@ docker logs ts3server
 **IMPORTANT**: After first run, you should find server admin token and server query admin account in server logs.
 
 ## With docker-compose
-More convenient way is using a configuration file with [docker-compose](https://github.com/docker/compose).
+More convenient way is through the configuration file  [docker-compose](https://github.com/docker/compose).
 
 ### Run server
 ```sh
