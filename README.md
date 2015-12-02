@@ -43,3 +43,7 @@ See: [default configuration](docker-compose.yml)
 docker-compose logs
 ```
 **IMPORTANT**: After first run, you should find server admin token and server query admin account in server logs.
+
+#### Initial files
+
+If you have some initial files, for example license key, whitelist, blacklist or even sqllite db, you can place them to [init folder](init). Everything from [init folder](init) will be used at build time of docker image.
