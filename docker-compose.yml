@@ -2,6 +2,8 @@
 default:
   build: .
   restart: always
+  volumes:
+    - ./init:/init
   ports:
     # allow standard teamspeak port
     - "9987/udp:9987/udp"

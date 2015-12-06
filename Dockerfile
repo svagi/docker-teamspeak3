@@ -1,3 +1,4 @@
+# http://media.teamspeak.com/ts3_literature/TeamSpeak%203%20Server%20Quick%20Start.txt
 FROM debian:jessie
 MAINTAINER Jan Svager <jan@svager.cz>
 
@@ -10,18 +11,21 @@ RUN apt-get update \
 # setup teamspeak environment variables
 ENV TS3_VERSION 3.0.11.4
 ENV TS3_URL http://dl.4players.de/ts/releases/$TS3_VERSION/teamspeak3-server_linux-amd64-$TS3_VERSION.tar.gz
-ENV TS3_DIR /opt/ts3server
+ENV TS3_DIR /ts3server
 
 # download and untar teamspeak
 RUN mkdir -p $TS3_DIR
 WORKDIR $TS3_DIR
 RUN wget $TS3_URL -O- | tar -xz --strip-components=1
 
-# copy everything from init folder to WORKDIR
-COPY init .
-
-# set WORKDIR as VOLUME to persist data
-VOLUME $TS3_DIR
+# symlink persistent data to volumes
+VOLUME ["/files", "/init"]
+RUN ln -s /files $TS3_DIR/files \
+  && ln -s /init/ts3server.sqlitedb $TS3_DIR/ts3server.sqlitedb
 
 # start teamspeak server
-ENTRYPOINT ./ts3server_minimal_runscript.sh
+CMD ./ts3server_minimal_runscript.sh \
+  logpath=/files/logs/ \
+  licensepath=/init/licensekey.dat \
+  query_ip_whitelist=/init/query_ip_whitelist.txt \
+  query_ip_blacklist=/init/query_ip_blacklist.txt

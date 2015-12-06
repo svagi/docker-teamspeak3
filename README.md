@@ -46,4 +46,4 @@ docker-compose logs
 
 #### Initial files
 
-If you have some initial files, for example license key, whitelist, blacklist or even sqllite db, you can place them to [init folder](init). Everything from [init folder](init) will be used at build time of docker image.
+If you have some initial files, for example license key, whitelist, blacklist or even sqllite db, you can place them to [init folder](init).
