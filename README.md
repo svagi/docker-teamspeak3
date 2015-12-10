@@ -20,7 +20,7 @@ docker build -t ts3server .
 
 ### Run
 ```sh
-docker run -d -p 9987:9987/udp -p 10011:10011/tcp -p 30033:30033/tcp -v $(pwd)/init:/init --restart=always --name=ts3server ts3server
+docker run -d -p 9987:9987/udp -p 10011:10011/tcp -p 30033:30033/tcp --restart=always --name=ts3server ts3server
 ```
 
 ### Logs

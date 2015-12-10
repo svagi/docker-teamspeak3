@@ -18,6 +18,8 @@ RUN mkdir -p $TS3_DIR
 WORKDIR $TS3_DIR
 RUN wget $TS3_URL -O- | tar -xz --strip-components=1
 
+COPY ./init /init
+
 # symlink persistent data to volumes
 VOLUME ["/files", "/init"]
 RUN ln -s /files $TS3_DIR/files \
@@ -26,6 +28,6 @@ RUN ln -s /files $TS3_DIR/files \
 # start teamspeak server
 CMD ./ts3server_minimal_runscript.sh \
   logpath=/files/logs/ \
-  licensepath=/init/licensekey.dat \
+  licensepath=/init/ \
   query_ip_whitelist=/init/query_ip_whitelist.txt \
   query_ip_blacklist=/init/query_ip_blacklist.txt
