@@ -4,26 +4,24 @@ MAINTAINER Jan Svager <jan@svager.cz>
 
 # install wget
 RUN apt-get update \
-  && apt-get install -y wget \
+  && apt-get install -y wget bzip2 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
 # setup teamspeak environment variables
-ENV TS3_VERSION 3.0.11.4
-ENV TS3_URL http://dl.4players.de/ts/releases/$TS3_VERSION/teamspeak3-server_linux-amd64-$TS3_VERSION.tar.gz
+ENV TS3_VERSION 3.0.13.4
+ENV TS3_URL http://dl.4players.de/ts/releases/$TS3_VERSION/teamspeak3-server_linux_amd64-$TS3_VERSION.tar.bz2
 ENV TS3_DIR /ts3server
 
 # download and untar teamspeak
-RUN mkdir -p $TS3_DIR
-WORKDIR $TS3_DIR
-RUN wget $TS3_URL -O- | tar -xz --strip-components=1
-
-COPY ./init /init
+WORKDIR /ts3server
+RUN wget $TS3_URL -O - | tar -xj --strip-components=1
 
 # symlink persistent data to volumes
 VOLUME ["/files", "/init"]
+COPY ./init /init
 RUN ln -s /files $TS3_DIR/files \
-  && ln -s /init/ts3server.sqlitedb $TS3_DIR/ts3server.sqlitedb
+ && ln -s /init/ts3server.sqlitedb $TS3_DIR/ts3server.sqlitedb
 
 # start teamspeak server
 CMD ./ts3server_minimal_runscript.sh \
